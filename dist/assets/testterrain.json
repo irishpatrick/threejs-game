@@ -1,6 +1,6 @@
 {
     "features": [
-        {"location": [20,20], "function": "linear", "amp": 1, "noise": 0.1},
-        {"location": [80,80], "function": "linear", "amp": 2, "noise": 0.2}
+        {"location": [-40,-40], "function": "linear", "amp": 100, "noise": 0.1},
+        {"location": [80,80], "function": "linear", "amp": 0, "noise": 0.2}
     ]
 }

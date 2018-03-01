@@ -48,18 +48,20 @@ function create_world() {
     scene.add(helper);
 
     camera.position.x = 2;
-    camera.position.y = 2;
-    camera.position.z = 1;
+    camera.position.y = 20;
+    camera.position.z = 40;
 
     test = new Tree(2);
     //test.getObject().position.y = -1;
     test.getObject().position.z = -2;
     scene.add(test.getObject());
 
-    camera.lookAt(test.getObject().position);
+    //camera.lookAt(test.getObject().position);
 
     terr = new Terrain("testterrain.json");
     scene.add(terr.getMesh());
+
+    camera.lookAt(terr.getMesh().position);
 }
 
 function update(delta) {
