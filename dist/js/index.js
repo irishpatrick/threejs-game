@@ -4,7 +4,6 @@ var Tree = require("./tree.js");
 var Terrain = require("./terrain.js");
 
 var camera, scene, renderer;
-var geometry, material, mesh;
 var test;
 var terr;
 
@@ -35,8 +34,6 @@ function init() {
     document.body.appendChild(stats.dom);
 }
 
-            //verts[i].y = (Math.random() * amp) - (amp/2);
-
 function create_world() {
     scene = new THREE.Scene();
 
@@ -54,10 +51,6 @@ function create_world() {
     camera.position.y = 2;
     camera.position.z = 1;
 
-    geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-    material = new THREE.MeshNormalMaterial();
-    mesh = new THREE.Mesh(geometry, material);
-
     test = new Tree(2);
     //test.getObject().position.y = -1;
     test.getObject().position.z = -2;
@@ -65,13 +58,12 @@ function create_world() {
 
     camera.lookAt(test.getObject().position);
 
-    terr = new Terrain(100, 0.2);
+    terr = new Terrain("testterrain.json");
     scene.add(terr.getMesh());
 }
 
 function update(delta) {
-    mesh.rotation.x += 1 * delta;
-    mesh.rotation.y += 1 * delta;
+
 }
 
 function animate() {
