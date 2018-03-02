@@ -1,6 +1,7 @@
 let fs = require("fs");
 let path = require("path");
 let THREE = require("three");
+let noise = require("./lib/perlin.js");
 
 let assetpath = path.join(__dirname, "..", "assets");
 
