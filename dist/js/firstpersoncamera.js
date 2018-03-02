@@ -7,6 +7,33 @@ class FirstPersonCamera {
 
         this.pitch.add(camera);
         this.yaw.add(this.pitch);
+
+        this.enabled = true;
+
+        this.sensitivity = 0.002;
+
+        let scope = this;
+        this.onMouseMove = function (e) {
+            if (scope.enabled === false) {
+                return;
+            }
+
+            var mx = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+            var my = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+
+            scope.yaw.rotation.y -= Math.radians(mx * scope.sensitivity);
+            scope.pitch.rotation.x -= Math.radians(my * scope.sensitivity);
+
+            scope.pitch.rotation.x = Math.max(
+                -Math.PI/2,
+                Math.min(Math.PI/2, scope.pitch.rotation.x));
+        };
+
+        document.addEventListener("mousemove", this.onMouseMove, false);
+    }
+
+    dispose() {
+        document.removeEventListener("mousemove", this.onMouseMove, false);
     }
 
     getObject() {
