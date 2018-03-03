@@ -1,3 +1,4 @@
+//let THREE = require("three");
 let THREE = require("three");
 let Stats = require("stats.js")
 let Tree = require("./tree.js");
@@ -38,7 +39,7 @@ var now, then, delta;
 
 function init() {
     camera = new THREE.PerspectiveCamera(
-        90, window.innerWidth / window.innerHeight, 0.1, 1000);
+        70, window.innerWidth / window.innerHeight, 0.1, 1000);
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -112,6 +113,26 @@ function update(delta) {
     if (keycodes("escape") in keys)
     {
         document.exitPointerLock();
+    }
+
+    let w = keycodes("w") in keys;
+    let s = keycodes("s") in keys;
+    let a = keycodes("a") in keys;
+    let d = keycodes("d") in keys;
+
+    let obj = fpc.getObject();
+
+    if (w) {
+        obj.translateZ(-20 * delta);
+    }
+    if (s) {
+        obj.translateZ(20 * delta);
+    }
+    if (a) {
+        obj.translateX(-20 * delta);
+    }
+    if (d) {
+        obj.translateX(20 * delta);
     }
 }
 

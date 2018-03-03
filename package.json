@@ -1,6 +1,12 @@
 {
     "name": "threejs-game",
     "version": "0.1.0",
+    "description": "doesn't matter",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/irishpatrick/threejs-game.git"
+    },
     "main": "main.js",
     "scripts": {
         "start": "electron ."
