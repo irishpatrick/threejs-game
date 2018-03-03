@@ -1,9 +1,12 @@
 let THREE = require("three");
 let Stats = require("stats.js")
-var Tree = require("./tree.js");
-var Terrain = require("./terrain.js");
+let Tree = require("./tree.js");
+let Terrain = require("./terrain.js");
+let FirstPersonCamera = require("./firstpersoncamera.js");
+let keycodes = require("keycodes");
 
 var camera, scene, renderer;
+var fpc;
 var test;
 var terr;
 
@@ -12,11 +15,23 @@ var directional;
 
 var stats;
 
+var keys = {};
+
+// callbacks
+
 window.onresize = function(e)
 {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function onkeydown(e) {
+    keys[e.keyCode] = true;
+}
+
+function onkeyup(e) {
+    delete keys[e.keyCode];
 }
 
 var now, then, delta;
@@ -29,6 +44,32 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
+    let canvas = renderer.domElement;
+
+    canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
+    document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
+
+    canvas.onclick = function() {
+        canvas.requestPointerLock();
+    }
+
+    fpc = new FirstPersonCamera(camera);
+
+    let pointerlockchange = function() {
+        if (document.pointerLockElement === canvas || document.mozPointerLockElement === canvas) {
+            fpc.enabled = true;
+
+        } else {
+            fpc.enabled = false;
+        }
+    };
+
+    document.addEventListener("pointerlockchange", pointerlockchange, false);
+    document.addEventListener("mozpointerlockchange", pointerlockchange, false);
+
+    document.addEventListener("keydown", onkeydown, false);
+    document.addEventListener("keyup", onkeyup, false);
+
     stats = new Stats();
     stats.showPanel(0) // fps
     document.body.appendChild(stats.dom);
@@ -36,6 +77,9 @@ function init() {
 
 function create_world() {
     scene = new THREE.Scene();
+
+    fpc.initPointerLock();
+    scene.add(fpc.getObject());
 
     // lights
     ambient = new THREE.AmbientLight(0x404040);
@@ -47,9 +91,9 @@ function create_world() {
     scene.add(point);
     scene.add(helper);
 
-    camera.position.x = 2;
-    camera.position.y = 20;
-    camera.position.z = 40;
+    fpc.getObject().position.x = 2;
+    fpc.getObject().position.y = 20;
+    fpc.getObject().position.z = 40;
 
     test = new Tree(2);
     //test.getObject().position.y = -1;
@@ -65,7 +109,10 @@ function create_world() {
 }
 
 function update(delta) {
-
+    if (keycodes("escape") in keys)
+    {
+        document.exitPointerLock();
+    }
 }
 
 function animate() {

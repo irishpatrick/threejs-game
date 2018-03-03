@@ -1,5 +1,9 @@
 let THREE = require("three");
 
+function rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
 class FirstPersonCamera {
     constructor(camera) {
         this.yaw = new THREE.Object3D();
@@ -8,9 +12,9 @@ class FirstPersonCamera {
         this.pitch.add(camera);
         this.yaw.add(this.pitch);
 
-        this.enabled = true;
+        this.enabled = false;
 
-        this.sensitivity = 0.002;
+        this.sensitivity = 0.012;
 
         let scope = this;
         this.onMouseMove = function (e) {
@@ -21,8 +25,8 @@ class FirstPersonCamera {
             var mx = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
             var my = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
 
-            scope.yaw.rotation.y -= Math.radians(mx * scope.sensitivity);
-            scope.pitch.rotation.x -= Math.radians(my * scope.sensitivity);
+            scope.yaw.rotation.y -= rad(mx * scope.sensitivity);
+            scope.pitch.rotation.x -= rad(my * scope.sensitivity);
 
             scope.pitch.rotation.x = Math.max(
                 -Math.PI/2,
@@ -30,6 +34,10 @@ class FirstPersonCamera {
         };
 
         document.addEventListener("mousemove", this.onMouseMove, false);
+    }
+
+    initPointerLock() {
+
     }
 
     dispose() {
