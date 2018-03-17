@@ -34,7 +34,7 @@ class Terrain {
 
     process(json) {
         //console.log(json);
-        for (let feature of json.features) {
+        /*for (let feature of json.features) {
             //console.log(feature);
             for (let vector of this.mesh.geometry.vertices) {
                 let center = new THREE.Vector3(feature.location[0]-50, feature.location[1]-50, 0);
@@ -53,7 +53,7 @@ class Terrain {
                 }
             }
         }
-        this.mesh.geometry.verticesNeedUpdate = true;
+        this.mesh.geometry.verticesNeedUpdate = true;*/
     }
 }
 

@@ -5,12 +5,12 @@ class Tree {
         let trunk_radius = (size / 2) / (2 * Math.PI);
         let trunk_geo = new THREE.CylinderGeometry(
             trunk_radius, trunk_radius, size, 32);
-        let trunk_mat = new THREE.MeshToonMaterial({color: 0x593200});
+        let trunk_mat = new THREE.MeshPhongMaterial({color: 0x593200});
         this.trunk = new THREE.Mesh(trunk_geo, trunk_mat);
 
         let top_radius = (size * 3) / (2 * Math.PI);
         let top_geo = new THREE.SphereGeometry(top_radius, 32, 32);
-        let top_mat = new THREE.MeshToonMaterial({color: 0x00841c});
+        let top_mat = new THREE.MeshPhongMaterial({color: 0x00841c});
         this.top = new THREE.Mesh(top_geo, top_mat);
 
         this.obj = new THREE.Object3D();

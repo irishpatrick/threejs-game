@@ -37,14 +37,7 @@ function onkeyup(e) {
 
 var now, then, delta;
 
-function init() {
-    camera = new THREE.PerspectiveCamera(
-        70, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
-
+function initPointerLock() {
     let canvas = renderer.domElement;
 
     canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
@@ -53,8 +46,6 @@ function init() {
     canvas.onclick = function() {
         canvas.requestPointerLock();
     }
-
-    fpc = new FirstPersonCamera(camera);
 
     let pointerlockchange = function() {
         if (document.pointerLockElement === canvas || document.mozPointerLockElement === canvas) {
@@ -67,6 +58,17 @@ function init() {
 
     document.addEventListener("pointerlockchange", pointerlockchange, false);
     document.addEventListener("mozpointerlockchange", pointerlockchange, false);
+}
+
+function init() {
+    camera = new THREE.PerspectiveCamera(
+        70, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    initPointerLock();
 
     document.addEventListener("keydown", onkeydown, false);
     document.addEventListener("keyup", onkeyup, false);
@@ -77,6 +79,8 @@ function init() {
 }
 
 function create_world() {
+    fpc = new FirstPersonCamera(camera);
+
     scene = new THREE.Scene();
 
     fpc.initPointerLock();
@@ -93,7 +97,7 @@ function create_world() {
     scene.add(helper);
 
     fpc.getObject().position.x = 2;
-    fpc.getObject().position.y = 20;
+    fpc.getObject().position.y = 2;
     fpc.getObject().position.z = 40;
 
     test = new Tree(2);
@@ -106,7 +110,7 @@ function create_world() {
     terr = new Terrain("testterrain.json");
     scene.add(terr.getMesh());
 
-    camera.lookAt(terr.getMesh().position);
+    //camera.lookAt(terr.getMesh().position);
 }
 
 function update(delta) {
