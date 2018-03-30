@@ -1,4 +1,3 @@
-//let THREE = require("three");
 let THREE = require("three");
 let Stats = require("stats.js")
 let Tree = require("./tree.js");
@@ -18,8 +17,10 @@ var stats;
 
 var keys = {};
 
-// callbacks
+let xvel = 0;
+let zvel = 0;
 
+// callbacks
 window.onresize = function(e)
 {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -126,18 +127,28 @@ function update(delta) {
 
     let obj = fpc.getObject();
 
+    if (!w && !s) {
+        zvel -= zvel / 10;
+    }
+    if (!a && !d) {
+        xvel -= xvel / 10;
+    }
+
     if (w) {
-        obj.translateZ(-20 * delta);
+        zvel -= 1 + (zvel / 10);
     }
     if (s) {
-        obj.translateZ(20 * delta);
+        zvel += 1 - (zvel / 10);
     }
     if (a) {
-        obj.translateX(-20 * delta);
+        xvel -= 1 + (xvel / 10);
     }
     if (d) {
-        obj.translateX(20 * delta);
+        xvel += 1 - (xvel / 10);
     }
+
+    obj.translateX(xvel * delta);
+    obj.translateZ(zvel * delta);
 }
 
 function animate() {
